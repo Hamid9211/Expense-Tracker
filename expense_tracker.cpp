@@ -328,3 +328,8 @@ class Expense_tracker{
    
 }
 }; 
+int main(){
+   Expense_tracker e;
+    e.display();
+    return 0;
+}
