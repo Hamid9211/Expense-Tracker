@@ -295,4 +295,36 @@ else {
   };
 
 };
-
+class Expense_tracker{
+  private:
+  int choice;
+  float total_expense;
+  public:
+  Expense_tracker(int c=0,float te=0.0):choice(c),total_expense(te){};
+  void display(){
+  cout<<"To enter house utilities press 1"
+      <<"\nTo enter Fees expense press 2"
+      <<"\nTo enter transport expense press 3"
+      <<"\nTo enter entertainment expense press 4"
+      <<"\nTo exit press any key"
+      <<"\nEnter your choice : ";
+  cin>>choice;
+  if(choice==1){
+    class house_utilities obj1;
+    obj1.main_display();
+   }
+   if (choice==2){
+    class fees obj2;
+    obj2.main_display();
+   }
+   if (choice==3){
+    class transport obj3;
+    obj3.main_display();
+   }
+   if (choice==4){
+    class entertainment obj4;
+    obj4.main_display();
+   }
+   
+}
+}; 
