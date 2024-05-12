@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <algorithm> // For std::remove
 #include <windows.h>
 
 using namespace std;
-
 class Expense_tracker; // Forward declaration
 
 class entertainment {
@@ -60,6 +60,7 @@ public:
     Expense_tracker(int c = 0, float te = 0.0) : choice(c), total_expense(te) {}
 
     void display();
+    void updateTotalExpense(float expense);
 };
 
 void entertainment::main_display() {
@@ -83,7 +84,7 @@ void entertainment::main_display() {
             cin >> choose;
             for (int i = 0; i < choose; i++) {
                 cout << "Enter expense type " << i + 1 << ": ";
-                cin.ignore();
+                cin.ignore(); // Ignore newline character
                 getline(cin, expense_type);
                 cout << "Enter your amount : ";
                 cin >> amount;
@@ -168,7 +169,7 @@ void transport::main_display() {
             cin >> choose;
             for (int i = 0; i < choose; i++) {
                 cout << "Enter expense type " << i + 1 << ": ";
-                cin.ignore();
+                cin.ignore(); // Ignore newline character
                 getline(cin, expense_type);
                 cout << "Enter your amount : ";
                 cin >> amount;
@@ -253,7 +254,7 @@ void Fees::main_display() {
             cin >> choose;
             for (int i = 0; i < choose; i++) {
                 cout << "Enter expense type " << i + 1 << ": ";
-                cin.ignore();
+                cin.ignore(); // Ignore newline character
                 getline(cin, expense_type);
                 cout << "Enter your amount : ";
                 cin >> amount;
@@ -338,7 +339,7 @@ void House_utilities::main_display() {
             cin >> choose;
             for (int i = 0; i < choose; i++) {
                 cout << "Enter expense type " << i + 1 << ": ";
-                cin.ignore();
+                cin.ignore(); // Ignore newline character
                 getline(cin, expense_type);
                 cout << "Enter your amount : ";
                 cin >> amount;
@@ -430,8 +431,174 @@ void Expense_tracker::display() {
     }
 }
 
+class Registration {
+public:
+    string username;
+    string password;
+    string checkusername;
+    string checkpassword;
+    bool checkU = false;
+    bool checkP = false;
+    int namelines;
+    string file ="C:\\Users\\Hp\\Desktop\\pp.txt";
+    string tempfile = "C:\\Users\\Hp\\Desktop\\pp.txt";
+    int rpin;
+
+    void registration() {
+    bool validUsername = false;
+
+    do {
+        cout << "Enter your username: ";
+        cin.ignore(); // Clear any newline characters in the input buffer
+        getline(cin, username);
+
+        // Check if the username contains spaces
+        if (username.find(' ') != string::npos) {
+            cout << "Username cannot contain spaces. Please try again." << endl;
+        } else {
+            validUsername = true;
+        }
+    } while (!validUsername);
+
+    cout << "Enter your password: ";
+    getline(cin, password);
+
+    cout << "Enter Recovery 4 digit pin: ";
+    cin >> rpin;
+
+    ofstream userdata(file, ios::app);
+    if (userdata.is_open()) {
+        userdata << username << endl;
+        userdata << password << endl;
+        userdata << rpin << endl;
+        cout << "\nRegistration Successful!!"<<endl;
+    } else {
+        cout << "Error while registering new user. Please TRY AGAIN!! ";
+        return; // Stop execution if the file cannot be opened
+    }
+}
+
+
+    bool login(string file) {
+        cout << "Enter username : ";
+        cin.ignore(); // Ignore newline character from previous input
+        getline(cin, username);
+        username.erase(remove(username.begin(), username.end(), ' '), username.end()); // Remove spaces
+
+        cout << "Enter Password : ";
+        getline(cin, password);
+
+        ifstream readfile(file);
+        string checkUsername, checkPassword;
+
+        while (readfile >> checkUsername >> checkPassword) {
+            if (checkUsername == username && checkPassword == password) {
+                readfile.close();
+                cout << "Login successful" << endl;
+                Sleep(2000);
+                return true;
+            }
+        }
+
+        readfile.close();
+        cout << "Invalid username or password" << endl;
+        return false;
+    }
+
+    void changepassword(string file, string tempfile) {
+    string srpin;
+    string newpassword;
+    cout << "Enter username : ";
+    cin >> username;
+    cout << "Enter Recovery Key : ";
+    cin >> rpin;
+    srpin = to_string(rpin);
+    ifstream readfile(file);
+    int recoverykey = 0;
+    while (getline(readfile, checkusername)) {
+        if (username == checkusername) {
+            checkU = true;
+            break;
+        }
+        recoverykey++;
+    }
+    readfile.seekg(0, ios::beg);
+    recoverykey = recoverykey + 2;
+    for (int i = 0; i <= recoverykey; i++) {
+        getline(readfile, checkpassword);
+        if (i == recoverykey) {
+            if (srpin == checkpassword) {
+                checkP = true;
+                break;
+            }
+        }
+    }
+    readfile.close();
+    if (!checkU) {
+        cout << "No User Found" << endl;
+        return;
+    }
+    if (!checkP) {
+        cout << "Recovery Key Invalid!" << endl;
+        return;
+    }
+
+    // Reopen the file for writing
+    ofstream temp(tempfile);
+    ifstream readfile2(file);
+    string line;
+    while (getline(readfile2, line)) {
+        if (line == username) {
+            // Skip the current line (username) and recovery key line
+            getline(readfile2, line); // Read and discard the recovery key line
+            getline(readfile2, line); // Read and discard the old password line
+            cout << "Enter your new password : ";
+            cin >> newpassword;
+            temp << line << endl; // Write the username
+            temp << newpassword << endl; // Write the new password
+        } else {
+            temp << line << endl; // Write other lines as they are
+        }
+    }
+    readfile2.close();
+    temp.close();
+    
+    // Remove the old file and rename the temporary file
+    remove(file.c_str());
+    rename(tempfile.c_str(), file.c_str());
+    
+    cout << "Password Changed Successfully!!" << endl;
+}
+};
+
 int main() {
-    Expense_tracker e;
-    e.display();
-    return 0;
+    int choice;
+    Registration obj;
+    while (1) {
+        cout << "1. Register"
+             << "\n2. Login"
+             << "\n3. Change Password"
+             << "\n4. Exit" << endl;
+        cout << "Enter your choice : ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                obj.registration();
+                break;
+            case 2:
+                if (obj.login(obj.file)) {
+                    Expense_tracker obj1;
+                    obj1.display();
+                }
+                break;
+            case 3:
+                obj.changepassword(obj.file, obj.tempfile);
+                break;
+            case 4:
+                cout << "Thank you for using our system!!";
+                return 0;
+            default:
+                cout << "Invalid choice, please try again." << endl;
+        }
+    }
 }
