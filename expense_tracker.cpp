@@ -1,11 +1,11 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <algorithm> // For std::remove
+#include <algorithm>
 #include <windows.h>
 
 using namespace std;
-class Expense_tracker; // Forward declaration
+class Expense_tracker;
 
 class entertainment {
 private:
@@ -84,9 +84,9 @@ void entertainment::main_display() {
             cin >> choose;
             for (int i = 0; i < choose; i++) {
                 cout << "Enter expense type " << i + 1 << ": ";
-                cin.ignore(); // Ignore newline character
+                cin.ignore();
                 getline(cin, expense_type);
-                cout << "Enter your amount : ";
+                cout << "Enter your amount : $ ";
                 cin >> amount;
                 outFile << expense_type << " " << amount << endl;
             }
@@ -136,16 +136,20 @@ void entertainment::main_display() {
                 cout << "No expenses added yet." << endl;
             }
         }
+        if (choice==4)
+        {
+            main_display();
+        }
 
         if (choice == 5) {
             Expense_tracker obj1;
-            obj1.display(); // Display the main menu again
+            obj1.display();
         }
 
-        cout << "if you want to see menu again and perform any action then press 4"
-             << " \nor any other key to exit : ";
+        cout << "To see menu press between 1-4"
+             << "\nor any other key to exit : ";
         cin >> choice;
-    } while (choice == 4);
+    } while (choice >= 1 && choice <= 5);
 }
 
 void transport::main_display() {
@@ -169,9 +173,9 @@ void transport::main_display() {
             cin >> choose;
             for (int i = 0; i < choose; i++) {
                 cout << "Enter expense type " << i + 1 << ": ";
-                cin.ignore(); // Ignore newline character
+                cin.ignore(); 
                 getline(cin, expense_type);
-                cout << "Enter your amount : ";
+                cout << "Enter your amount : $ ";
                 cin >> amount;
                 outFile << expense_type << " " << amount << endl;
             }
@@ -221,16 +225,20 @@ void transport::main_display() {
                 cout << "No expenses added yet." << endl;
             }
         }
+         if (choice==4)
+        {
+            main_display();
+        }
 
         if (choice == 5) {
             Expense_tracker obj1;
-            obj1.display(); // Display the main menu again
+            obj1.display(); 
         }
 
-        cout << "if you want to see menu again and perform any action then press 4"
+        cout << "To see menu press between 1-4"
              << " \nor any other key to exit : ";
         cin >> choice;
-    } while (choice == 4);
+    } while (choice >= 1 && choice <= 5);
 }
 
 void Fees::main_display() {
@@ -254,9 +262,9 @@ void Fees::main_display() {
             cin >> choose;
             for (int i = 0; i < choose; i++) {
                 cout << "Enter expense type " << i + 1 << ": ";
-                cin.ignore(); // Ignore newline character
+                cin.ignore(); 
                 getline(cin, expense_type);
-                cout << "Enter your amount : ";
+                cout << "Enter your amount : $ ";
                 cin >> amount;
                 outFile << expense_type << " " << amount << endl;
             }
@@ -306,16 +314,20 @@ void Fees::main_display() {
                 cout << "No expenses added yet." << endl;
             }
         }
+         if (choice==4)
+        {
+            main_display();
+        }
 
         if (choice == 5) {
             Expense_tracker obj1;
-            obj1.display(); // Display the main menu again
+            obj1.display();
         }
 
-        cout << "if you want to see menu again and perform any action then press 4"
+        cout << "To see menu press between 1-4"
              << " \nor any other key to exit : ";
         cin >> choice;
-    } while (choice == 4);
+    } while (choice >= 1 && choice <= 5);
 }
 
 void House_utilities::main_display() {
@@ -339,9 +351,9 @@ void House_utilities::main_display() {
             cin >> choose;
             for (int i = 0; i < choose; i++) {
                 cout << "Enter expense type " << i + 1 << ": ";
-                cin.ignore(); // Ignore newline character
+                cin.ignore(); 
                 getline(cin, expense_type);
-                cout << "Enter your amount : ";
+                cout << "Enter your amount : $ ";
                 cin >> amount;
                 outFile << expense_type << " " << amount << endl;
             }
@@ -391,16 +403,20 @@ void House_utilities::main_display() {
                 cout << "No expenses added yet." << endl;
             }
         }
+         if (choice==4)
+        {
+            main_display();
+        }
 
         if (choice == 5) {
             Expense_tracker obj1;
-            obj1.display(); // Display the main menu again
+            obj1.display(); 
         }
 
-        cout << "if you want to see menu again and perform any action then press 4"
+        cout << "To see menu press between 1-4"
              << " \nor any other key to exit : ";
         cin >> choice;
-    } while (choice == 4);
+    } while (choice >= 1 && choice <= 5);
 }
 
 void Expense_tracker::display() {
@@ -449,10 +465,9 @@ public:
 
     do {
         cout << "Enter your username: ";
-        cin.ignore(); // Clear any newline characters in the input buffer
+        cin.ignore();
         getline(cin, username);
 
-        // Check if the username contains spaces
         if (username.find(' ') != string::npos) {
             cout << "Username cannot contain spaces. Please try again." << endl;
         } else {
@@ -472,18 +487,20 @@ public:
         userdata << password << endl;
         userdata << rpin << endl;
         cout << "\nRegistration Successful!!"<<endl;
+        Sleep(2000);
+        system("cls");
     } else {
         cout << "Error while registering new user. Please TRY AGAIN!! ";
-        return; // Stop execution if the file cannot be opened
+        return;
     }
 }
 
 
     bool login(string file) {
         cout << "Enter username : ";
-        cin.ignore(); // Ignore newline character from previous input
+        cin.ignore();
         getline(cin, username);
-        username.erase(remove(username.begin(), username.end(), ' '), username.end()); // Remove spaces
+        username.erase(remove(username.begin(), username.end(), ' '), username.end());
 
         cout << "Enter Password : ";
         getline(cin, password);
@@ -543,27 +560,24 @@ public:
         return;
     }
 
-    // Reopen the file for writing
     ofstream temp(tempfile);
     ifstream readfile2(file);
     string line;
     while (getline(readfile2, line)) {
         if (line == username) {
-            // Skip the current line (username) and recovery key line
-            getline(readfile2, line); // Read and discard the recovery key line
-            getline(readfile2, line); // Read and discard the old password line
+            getline(readfile2, line); 
+            getline(readfile2, line); 
             cout << "Enter your new password : ";
             cin >> newpassword;
-            temp << line << endl; // Write the username
-            temp << newpassword << endl; // Write the new password
+            temp << line << endl;
+            temp << newpassword << endl;
         } else {
-            temp << line << endl; // Write other lines as they are
+            temp << line << endl;
         }
     }
     readfile2.close();
     temp.close();
     
-    // Remove the old file and rename the temporary file
     remove(file.c_str());
     rename(tempfile.c_str(), file.c_str());
     
