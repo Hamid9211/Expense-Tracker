@@ -512,7 +512,6 @@ public:
             if (checkUsername == username && checkPassword == password) {
                 readfile.close();
                 cout << "Login successful" << endl;
-                Sleep(2000);
                 return true;
             }
         }
@@ -586,6 +585,16 @@ public:
 };
 
 int main() {
+                                                                                                             
+ cout<<" #####                                                   #####                       #                   "<<endl;
+ cout<<" #                                                         #                         #                   "<<endl;
+ cout<<" #      #   #  # ##    ###   # ##    ###    ###            #    # ##    ###    ###   #   #   ###   # ##  "<<endl;
+ cout<<" ####    # #   ##  #  #   #  ##  #  #      #   #           #    ##  #      #  #   #  #  #   #   #  ##  # "<<endl;
+ cout<<" #        #    ##  #  #####  #   #   ###   #####           #    #       ####  #      ###    #####  #     "<<endl;
+ cout<<" #       # #   # ##   #      #   #      #  #               #    #      #   #  #   #  #  #   #      #     "<<endl;
+ cout<<" #####  #   #  #       ###   #   #  ####    ###            #    #       ####   ###   #   #   ###   #     "<<endl;
+ cout<<"               #                                                                                         "<<endl;
+ cout<<"               #                                                                                         "<<endl;
     int choice;
     Registration obj;
     while (1) {
@@ -600,7 +609,12 @@ int main() {
                 obj.registration();
                 break;
             case 2:
-                if (obj.login(obj.file)) {
+                if (obj.login(obj.file)) {                                                                
+                 cout<<"||  /  | / /      ___       //      ___        ___        _   __        ___    "<<endl;
+                 cout<<"|| / /||/ /     //___) )   //     //   ) )   //   ) )   // ) )  ) )   //___) ) "<<endl;
+                 cout<<"||/ / |  /     //         //     //         //   / /   // / /  / /   //        "<<endl;
+                 cout<<"|  /  | /     ((____     //     ((____     ((___/ /   // / /  / /   ((____     "<<endl;
+                    Sleep(3000);
                     Expense_tracker obj1;
                     obj1.display();
                 }
